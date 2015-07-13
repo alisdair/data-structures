@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct BinaryHeap<T> {
     vec: Vec<T>
 }
@@ -9,6 +10,13 @@ impl<T> BinaryHeap<T> where T: Ord
     pub fn new() -> BinaryHeap<T>
     {
         BinaryHeap::with_capacity(DEFAULT_HEAP_CAPACITY)
+    }
+
+    pub fn from_vec(vec: Vec<T>) -> BinaryHeap<T>
+    {
+        BinaryHeap {
+            vec: vec
+        }
     }
 
     pub fn with_capacity(capacity: usize) -> BinaryHeap<T>
@@ -46,9 +54,9 @@ impl<T> BinaryHeap<T> where T: Ord
     {
         let len = self.vec.len();
         let mut parent = index;
-        while parent * 2 < len
+        while parent * 2 + 1 < len
         {
-            let left = parent * 2;
+            let left = parent * 2 + 1;
             let right = left + 1;
 
             let child = if right < len && self.vec[left] < self.vec[right] {
@@ -132,17 +140,19 @@ fn test_swimming() {
 
 #[test]
 fn test_pop() {
-    let mut heap = BinaryHeap::<i32>::new();
+    let xs = vec![97, 84, 58, 73, 80, 30, 40, 49, 61, 66];
+    let mut heap = BinaryHeap::<i32>::from_vec(xs);
 
-    heap.push(53);
-    heap.push(127);
-    heap.push(23);
-    heap.push(12345);
-
-    assert_eq!(12345, heap.pop().unwrap());
-    assert_eq!(127, heap.pop().unwrap());
-    assert_eq!(53, heap.pop().unwrap());
-    assert_eq!(23, heap.pop().unwrap());
+    assert_eq!(97, heap.pop().unwrap());
+    assert_eq!(84, heap.pop().unwrap());
+    assert_eq!(80, heap.pop().unwrap());
+    assert_eq!(73, heap.pop().unwrap());
+    assert_eq!(66, heap.pop().unwrap());
+    assert_eq!(61, heap.pop().unwrap());
+    assert_eq!(58, heap.pop().unwrap());
+    assert_eq!(49, heap.pop().unwrap());
+    assert_eq!(40, heap.pop().unwrap());
+    assert_eq!(30, heap.pop().unwrap());
     assert_eq!(None, heap.pop());
 }
 
