@@ -1,6 +1,6 @@
 extern crate rustrees;
 
-use rustrees::BinaryHeap;
+use rustrees::binary_heap::BinaryHeap;
 
 #[allow(dead_code)]
 fn main() {
