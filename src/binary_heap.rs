@@ -5,39 +5,28 @@ pub struct BinaryHeap<T> {
 
 const DEFAULT_HEAP_CAPACITY: usize = 256;
 
-impl<T> BinaryHeap<T> where T: Ord
-{
-    pub fn new() -> BinaryHeap<T>
-    {
+impl<T> BinaryHeap<T> where T: Ord {
+    pub fn new() -> BinaryHeap<T> {
         BinaryHeap::with_capacity(DEFAULT_HEAP_CAPACITY)
     }
 
-    pub fn from_vec(vec: Vec<T>) -> BinaryHeap<T>
-    {
-        BinaryHeap {
-            vec: vec
-        }
+    pub fn from_vec(vec: Vec<T>) -> BinaryHeap<T> {
+        BinaryHeap { vec: vec }
     }
 
-    pub fn with_capacity(capacity: usize) -> BinaryHeap<T>
-    {
-        BinaryHeap {
-            vec: Vec::with_capacity(capacity)
-        }
+    pub fn with_capacity(capacity: usize) -> BinaryHeap<T> {
+        BinaryHeap { vec: Vec::with_capacity(capacity) }
     }
 
-    pub fn peek(&self) -> Option<&T>
-    {
+    pub fn peek(&self) -> Option<&T> {
         self.vec.get(0)
     }
 
-    pub fn capacity(&self) -> usize
-    {
+    pub fn capacity(&self) -> usize {
         self.vec.capacity()
     }
 
-    pub fn pop(&mut self) -> Option<T>
-    {
+    pub fn pop(&mut self) -> Option<T> {
         if self.vec.is_empty() {
             return None;
         }
@@ -47,15 +36,14 @@ impl<T> BinaryHeap<T> where T: Ord
 
         let item = self.vec.pop();
         self.sink(0);
+
         item
     }
 
-    fn sink(&mut self, index: usize)
-    {
+    fn sink(&mut self, index: usize) {
         let len = self.vec.len();
         let mut parent = index;
-        while parent * 2 + 1 < len
-        {
+        while parent * 2 + 1 < len {
             let left = parent * 2 + 1;
             let right = left + 1;
 
@@ -74,15 +62,13 @@ impl<T> BinaryHeap<T> where T: Ord
         }
     }
 
-    pub fn push(&mut self, item: T)
-    {
+    pub fn push(&mut self, item: T) {
         self.vec.push(item);
         let index = self.vec.len() - 1;
         self.swim(index);
     }
 
-    fn swim(&mut self, index: usize)
-    {
+    fn swim(&mut self, index: usize) {
         let mut child = index;
         while child > 0 {
             let parent = (child - 1) / 2;
@@ -96,8 +82,7 @@ impl<T> BinaryHeap<T> where T: Ord
         }
     }
 
-    pub fn len(&self) -> usize
-    {
+    pub fn len(&self) -> usize {
         self.vec.len()
     }
 }
