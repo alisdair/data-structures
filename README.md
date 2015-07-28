@@ -1,5 +1,5 @@
-# rustrees
+# Data Strutures
 
-[![Build Status](https://travis-ci.org/alisdair/rustrees.svg?branch=master)](https://travis-ci.org/alisdair/rustrees)
+[![Build Status](https://travis-ci.org/alisdair/data-structures.svg?branch=master)](https://travis-ci.org/alisdair/data-structures)
 
-Some toy implementations of tree data structures in Rust. Starting with binary heap.
+Some toy implementations of data structures in Rust.

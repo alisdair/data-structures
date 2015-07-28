@@ -1,6 +1,6 @@
-extern crate rustrees;
+extern crate data_structures;
 
-use rustrees::binary_heap::BinaryHeap;
+use data_structures::binary_heap::BinaryHeap;
 
 #[allow(dead_code)]
 fn main() {

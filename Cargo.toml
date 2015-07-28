@@ -1,4 +1,4 @@
 [package]
-name = "rustrees"
+name = "data_structures"
 version = "0.1.0"
 authors = ["Alisdair McDiarmid <alisdair@mcdiarmid.org>"]
