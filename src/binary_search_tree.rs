@@ -17,11 +17,9 @@ impl<T> BinarySearchTree<T> where T: Ord
     }
 
     pub fn insert(&mut self, item: T) {
-        let node = Node::new(item);
-
         match self.root {
-            None => self.root = Some(Box::new(node)),
-            Some(ref mut link) => link.insert(node),
+            None => self.root = Some(Box::new(Node::new(item))),
+            Some(ref mut link) => link.insert(item),
         };
     }
 
@@ -43,33 +41,38 @@ impl<T> Node<T> where T: Ord
         }
     }
 
-    pub fn insert(&mut self, node: Node<T>) {
-        if node.item < self.item {
-            match self.left {
-                None => self.left = Some(Box::new(node)),
-                Some(ref mut link) => link.insert(node),
-            }
+    pub fn insert(&mut self, item: T) {
+        if self.item == item {
+            self.item = item;
+            return
+        }
+
+        let next = if item < self.item {
+            &mut self.left
         } else {
-            match self.right {
-                None => self.right = Some(Box::new(node)),
-                Some(ref mut link) => link.insert(node),
-            }
+            &mut self.right
+        };
+
+        match next {
+            &mut None => *next = Some(Box::new(Node::new(item))),
+            &mut Some(ref mut link) => link.insert(item),
         }
     }
 
     pub fn find(&self, item: T) -> Option<&T> {
-        if item < self.item {
-            match self.left {
-                None => None,
-                Some(ref link) => link.find(item),
-            }
-        } else if item > self.item {
-            match self.right {
-                None => None,
-                Some(ref link) => link.find(item),
-            }
+        if item == self.item {
+            return Some(&self.item)
+        }
+
+        let next = if item < self.item {
+            &self.left
         } else {
-            Some(&self.item)
+            &self.right
+        };
+
+        match next {
+            &None => None,
+            &Some(ref link) => link.find(item),
         }
     }
 }
