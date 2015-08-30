@@ -88,8 +88,13 @@ impl<T> BinaryHeap<T> where T: Ord {
 }
 
 #[cfg(test)]
-mod test {
+
+mod tests {
+    extern crate rand;
+
     use super::BinaryHeap;
+    use test::Bencher;
+    use rand::Rng;
 
     #[test]
     fn test_new() {
@@ -158,5 +163,61 @@ mod test {
         heap.push(23);
         heap.push(12345);
         assert_eq!(4, heap.len());
+    }
+
+    #[bench]
+    fn bench_push_1000(b: &mut Bencher) {
+        let mut heap = BinaryHeap::<u32>::new();
+        let mut rng = rand::thread_rng();
+
+        for _ in 0..1000 {
+            heap.push(rng.gen());
+        }
+
+        b.iter(|| {
+            heap.push(rng.gen());
+        });
+    }
+
+    #[bench]
+    fn bench_push_10000(b: &mut Bencher) {
+        let mut heap = BinaryHeap::<u32>::new();
+        let mut rng = rand::thread_rng();
+
+        for _ in 0..10000 {
+            heap.push(rng.gen());
+        }
+
+        b.iter(|| {
+            heap.push(rng.gen());
+        });
+    }
+
+    #[bench]
+    fn bench_push_100000(b: &mut Bencher) {
+        let mut heap = BinaryHeap::<u32>::new();
+        let mut rng = rand::thread_rng();
+
+        for _ in 0..100000 {
+            heap.push(rng.gen());
+        }
+
+        b.iter(|| {
+            heap.push(rng.gen());
+        });
+    }
+
+    #[bench]
+    fn bench_push_1000000(b: &mut Bencher) {
+        let mut heap = BinaryHeap::<u32>::new();
+        let mut rng = rand::thread_rng();
+
+        for _ in 0..1000000 {
+            heap.push(rng.gen());
+        }
+
+        b.iter(|| {
+            heap.push(rng.gen());
+        });
     }
 }
