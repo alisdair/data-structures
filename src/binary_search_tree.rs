@@ -29,6 +29,14 @@ impl<T> BinarySearchTree<T> where T: Ord
             Some(ref link) => link.find(item),
         }
     }
+
+    pub fn walk(&self) -> Vec<&T> {
+        let items = Vec::new();
+        match self.root {
+            None => items,
+            Some(ref x) => x.walk(&items),
+        }
+    }
 }
 
 impl<T> Node<T> where T: Ord
@@ -67,6 +75,22 @@ impl<T> Node<T> where T: Ord
             },
         }
     }
+
+    fn walk(&self, items: &Vec<&T>) -> Vec<&T> {
+        let children_left = match self.left {
+            None => Vec::new(),
+            Some(ref x) => x.walk(&items),
+        };
+        let children_right = match self.right {
+            None => Vec::new(),
+            Some(ref x) => x.walk(&items),
+        };
+        let mut new_items = Vec::new();
+        new_items.extend(children_left.iter().cloned());
+        new_items.push(&self.item);
+        new_items.extend(children_right.iter().cloned());
+        new_items
+    }
 }
 
 #[cfg(test)]
@@ -89,5 +113,25 @@ mod tests {
         assert_eq!(tree.find(5),  Some(&5));
         assert_eq!(tree.find(10), Some(&10));
         assert_eq!(tree.find(3),  None);
+    }
+
+    #[test]
+    fn test_walk() {
+        let mut tree = BinarySearchTree::<i32>::new();
+        
+        let empty: Vec<&i32> = Vec::new();
+        assert_eq!(tree.walk(), empty);
+
+        tree.insert(6);
+        tree.insert(4);
+        tree.insert(10);
+        tree.insert(2);
+        tree.insert(5);
+        tree.insert(1);
+        tree.insert(3);
+        tree.insert(9);
+        tree.insert(11);
+
+        assert_eq!(vec![&1,&2,&3,&4,&5,&6,&9,&10,&11], tree.walk());
     }
 }
