@@ -33,7 +33,7 @@ impl<T> BinarySearchTree<T> where T: Ord
 
 impl<T> Node<T> where T: Ord
 {
-    pub fn new(item: T) -> Self {
+    fn new(item: T) -> Self {
         Node {
             item: item,
             left: None,
@@ -41,7 +41,7 @@ impl<T> Node<T> where T: Ord
         }
     }
 
-    pub fn insert(&mut self, item: T) {
+    fn insert(&mut self, item: T) {
         match &self.item {
             x if item <= *x => match self.left {
                 None => self.left = Some(box Node::new(item)),
@@ -54,7 +54,7 @@ impl<T> Node<T> where T: Ord
         }
     }
 
-    pub fn find(&self, item: T) -> Option<&T> {
+    fn find(&self, item: T) -> Option<&T> {
         match &self.item {
             x if *x == item => Some(&x),
             x if item <= *x => match self.left {
