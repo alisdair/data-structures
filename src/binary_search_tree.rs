@@ -18,7 +18,7 @@ impl<T> BinarySearchTree<T> where T: Ord
 
     pub fn insert(&mut self, item: T) {
         match self.root {
-            None => self.root = Some(Box::new(Node::new(item))),
+            None => self.root = Some(box Node::new(item)),
             Some(ref mut link) => link.insert(item),
         };
     }
@@ -42,43 +42,35 @@ impl<T> Node<T> where T: Ord
     }
 
     pub fn insert(&mut self, item: T) {
-        if self.item == item {
-            self.item = item;
-            return
-        }
-
-        let next = if item < self.item {
-            &mut self.left
-        } else {
-            &mut self.right
-        };
-
-        match next {
-            &mut None => *next = Some(Box::new(Node::new(item))),
-            &mut Some(ref mut link) => link.insert(item),
+        match &self.item {
+            x if item <= *x => match self.left {
+                None => self.left = Some(box Node::new(item)),
+                Some(ref mut x) => x.insert(item),
+            },
+            _ => match self.right {
+                None => self.right = Some(box Node::new(item)),
+                Some(ref mut x) => x.insert(item),
+            },
         }
     }
 
     pub fn find(&self, item: T) -> Option<&T> {
-        if item == self.item {
-            return Some(&self.item)
-        }
-
-        let next = if item < self.item {
-            &self.left
-        } else {
-            &self.right
-        };
-
-        match next {
-            &None => None,
-            &Some(ref link) => link.find(item),
+        match &self.item {
+            x if *x == item => Some(&x),
+            x if item <= *x => match self.left {
+                None => None,
+                Some(ref x) => x.find(item),
+            },
+            _ => match self.right {
+                None => None,
+                Some(ref x) => x.find(item),
+            },
         }
     }
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::BinarySearchTree;
 
     #[test]
@@ -92,10 +84,10 @@ mod test {
         tree.insert(10);
         tree.insert(2);
 
-        assert_eq!(tree.find(1), Some(&1));
-        assert_eq!(tree.find(2), Some(&2));
-        assert_eq!(tree.find(5), Some(&5));
+        assert_eq!(tree.find(1),  Some(&1));
+        assert_eq!(tree.find(2),  Some(&2));
+        assert_eq!(tree.find(5),  Some(&5));
         assert_eq!(tree.find(10), Some(&10));
-        assert_eq!(tree.find(3), None);
+        assert_eq!(tree.find(3),  None);
     }
 }
