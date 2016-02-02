@@ -18,7 +18,7 @@ impl<T> BinarySearchTree<T> where T: Ord
 
     pub fn insert(&mut self, item: T) {
         match self.root {
-            None => self.root = Some(box Node::new(item)),
+            None => self.root = Some(Box::new(Node::new(item))),
             Some(ref mut link) => link.insert(item),
         };
     }
@@ -52,11 +52,11 @@ impl<T> Node<T> where T: Ord
     fn insert(&mut self, item: T) {
         match &self.item {
             x if item <= *x => match self.left {
-                None => self.left = Some(box Node::new(item)),
+                None => self.left = Some(Box::new(Node::new(item))),
                 Some(ref mut x) => x.insert(item),
             },
             _ => match self.right {
-                None => self.right = Some(box Node::new(item)),
+                None => self.right = Some(Box::new(Node::new(item))),
                 Some(ref mut x) => x.insert(item),
             },
         }
