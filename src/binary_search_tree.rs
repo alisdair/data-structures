@@ -65,15 +65,15 @@ impl<T> Node<T> where T: Ord
 
     fn find(&self, item: T) -> Option<&T> {
         match &self.item {
-            x if *x == item => Some(&x),
             x if item < *x => match self.left {
                 None => None,
                 Some(ref x) => x.find(item),
             },
-            _ => match self.right {
+            x if item > *x => match self.right {
                 None => None,
                 Some(ref x) => x.find(item),
             },
+            x => Some(&x),
         }
     }
 
