@@ -51,21 +51,22 @@ impl<T> Node<T> where T: Ord
 
     fn insert(&mut self, item: T) {
         match &self.item {
-            x if item <= *x => match self.left {
+            x if item < *x => match self.left {
                 None => self.left = Some(Box::new(Node::new(item))),
                 Some(ref mut x) => x.insert(item),
             },
-            _ => match self.right {
+            x if item > *x => match self.right {
                 None => self.right = Some(Box::new(Node::new(item))),
                 Some(ref mut x) => x.insert(item),
             },
+            _ => (),
         }
     }
 
     fn find(&self, item: T) -> Option<&T> {
         match &self.item {
             x if *x == item => Some(&x),
-            x if item <= *x => match self.left {
+            x if item < *x => match self.left {
                 None => None,
                 Some(ref x) => x.find(item),
             },
@@ -131,6 +132,10 @@ mod tests {
         tree.insert(3);
         tree.insert(9);
         tree.insert(11);
+
+        assert_eq!(vec![&1,&2,&3,&4,&5,&6,&9,&10,&11], tree.walk());
+
+        tree.insert(5);
 
         assert_eq!(vec![&1,&2,&3,&4,&5,&6,&9,&10,&11], tree.walk());
     }
