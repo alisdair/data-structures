@@ -1,7 +1,4 @@
-#![feature(test)]
-
-extern crate test;
-extern crate rand;
+#![crate_type = "lib"]
 
 pub mod binary_heap;
 pub mod list;

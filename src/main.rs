@@ -2,7 +2,6 @@ extern crate data_structures;
 
 use data_structures::binary_heap::BinaryHeap;
 
-#[allow(dead_code)]
 fn main() {
     let xs = vec![96, 77, 88, 45, 53, 30, 78, 23, 36, 47];
     let mut hx = BinaryHeap::<i32>::from_vec(xs);
