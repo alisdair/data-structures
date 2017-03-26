@@ -1,15 +1,14 @@
-#![feature(test)]
+#[macro_use]
+extern crate bencher;
 
 extern crate data_structures;
-extern crate test;
 extern crate rand;
 
-use test::Bencher;
+use bencher::Bencher;
 use data_structures::binary_heap::BinaryHeap;
 use rand::Rng;
 
-#[bench]
-fn bench_push_1000(b: &mut Bencher) {
+fn bench_push_1k(b: &mut Bencher) {
     let mut heap = BinaryHeap::<u32>::new();
     let mut rng = rand::thread_rng();
 
@@ -22,8 +21,7 @@ fn bench_push_1000(b: &mut Bencher) {
     });
 }
 
-#[bench]
-fn bench_push_10000(b: &mut Bencher) {
+fn bench_push_10k(b: &mut Bencher) {
     let mut heap = BinaryHeap::<u32>::new();
     let mut rng = rand::thread_rng();
 
@@ -36,8 +34,7 @@ fn bench_push_10000(b: &mut Bencher) {
     });
 }
 
-#[bench]
-fn bench_push_100000(b: &mut Bencher) {
+fn bench_push_100k(b: &mut Bencher) {
     let mut heap = BinaryHeap::<u32>::new();
     let mut rng = rand::thread_rng();
 
@@ -50,8 +47,7 @@ fn bench_push_100000(b: &mut Bencher) {
     });
 }
 
-#[bench]
-fn bench_push_1000000(b: &mut Bencher) {
+fn bench_push_1m(b: &mut Bencher) {
     let mut heap = BinaryHeap::<u32>::new();
     let mut rng = rand::thread_rng();
 
@@ -63,3 +59,6 @@ fn bench_push_1000000(b: &mut Bencher) {
         heap.push(rng.gen());
     });
 }
+
+benchmark_group!(benches, bench_push_1k, bench_push_10k, bench_push_100k, bench_push_1m);
+benchmark_main!(benches);
